@@ -4,7 +4,7 @@ use opentelemetry_appender_tracing::layer;
 use opentelemetry_sdk::logs::SdkLoggerProvider;
 use opentelemetry_user_events_logs::{ExporterConfig, ReentrantLogProcessor, UserEventsExporter};
 use std::collections::HashMap;
-use tracing::error;
+use tracing::{error, info, warn};
 use tracing_subscriber::prelude::*;
 
 fn init_logger() -> SdkLoggerProvider {
@@ -27,10 +27,25 @@ fn main() {
 
     // event_id is passed as an attribute now, there is nothing in metadata where a
     // numeric id can be stored.
-    error!(
-        name: "my-event-name",
-        event_id = 20,
-        user_name = "otel user",
-        user_email = "otel@opentelemetry.io"
-    );
+    loop {
+        error!(
+            name: "my-event-name-error",
+            event_id = 20,
+            user_name = "otel user",
+            user_email = "otel@opentelemetry.io"
+        );
+        warn!(
+            name: "my-event-name-warn",
+            event_id = 20,
+            user_name = "otel user",
+            user_email = "otel@opentelemetry.io"
+        );
+        info!(
+            name: "my-event-name-info",
+            event_id = 20,
+            user_name = "otel user",
+            user_email = "otel@opentelemetry.io"
+        );
+        std::thread::sleep(std::time::Duration::from_secs(1));
+    }   
 }
