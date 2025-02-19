@@ -29,7 +29,7 @@ fn main() {
     let otel_layer = layer::OpenTelemetryTracingBridge::new(&logger_provider);
     let otel_layer = otel_layer.with_filter(filter_otel);
 
-    let filter_fmt = EnvFilter::new("info").add_directive("opentelemetry=debug".parse().unwrap()).add_directive("basic_logs=off".parse().unwrap());;
+    let filter_fmt = EnvFilter::new("info").add_directive("opentelemetry=debug".parse().unwrap()).add_directive("basic_logs=off".parse().unwrap());
     let fmt_layer = tracing_subscriber::fmt::layer().with_filter(filter_fmt);
 
     tracing_subscriber::registry()
