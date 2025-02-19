@@ -29,12 +29,12 @@ fn main() {
     let otel_layer = layer::OpenTelemetryTracingBridge::new(&logger_provider);
     let otel_layer = otel_layer.with_filter(filter_otel);
 
-    let filter_fmt = EnvFilter::new("info").add_directive("opentelemetry=debug".parse().unwrap());
+    let filter_fmt = EnvFilter::new("info").add_directive("opentelemetry=debug".parse().unwrap()).add_directive("basic_logs=off".parse().unwrap());;
     let fmt_layer = tracing_subscriber::fmt::layer().with_filter(filter_fmt);
 
     tracing_subscriber::registry()
-        .with(otel_layer)
         .with(fmt_layer)
+        .with(otel_layer)
         .init();
 
     // event_id is passed as an attribute now, there is nothing in metadata where a
@@ -54,7 +54,7 @@ fn main() {
             name: "my-event-name",
             event_id = 20,
             user_name = "otel user",
-            user_email = "otel@opentelemetry.io"
+            user_email = "A".repeat(67 * 1024)
         );
         thread::sleep(Duration::from_secs(1));
     }
