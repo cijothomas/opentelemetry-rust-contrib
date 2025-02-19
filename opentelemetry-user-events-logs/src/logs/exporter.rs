@@ -343,6 +343,7 @@ impl UserEventsExporter {
 
                 let result = eb.write(&log_es, None, None);
 
+                println!("Result: {}", result);
                 if result > 0 {
                     Err(OTelSdkError::InternalFailure(format!(
                         "Failed to write event to user_events tracepoint with result code: {}",
